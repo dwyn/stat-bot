@@ -1,0 +1,38 @@
+name: deploy stat-bot
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }} 
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets. SERVER_SSH_KEY }} 
+        script: cd/path/to/your/bot/on/server git pull origin main # Restart ' or any other ↓ necessary steps
+
+
+               host: ${{ secrets.SERVER_IP }} 
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_SSH_KEY }} 
+        # Navigate to the specified directory on the server
+        script: |
+          cd /root/.venvs/discord-bots/stat-bot
+
+          git pull origin main
+
+          source /root/.venvs/discord-bots/stat-bot/bin/activate
+          # Restart the bot (this is a placeholder, replace with your actual restart command)
+          # For example, if you're using systemd: systemctl restart stat-bot.service
+          # Or if you're using a custom script: ./restart_bot.sh
+          # Make sure the bot restarts successfully
